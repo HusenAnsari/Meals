@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-import './categories_screen.dart';
-import './category_meals_screen.dart';
+import './screens/categories_screen.dart';
+import './screens/category_meals_screen.dart';
+import './screens/meal_detail_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -29,9 +30,37 @@ class MyApp extends StatelessWidget {
               ),
             ),
       ),
-      home: CategoriesScreen(),
+      //home: CategoriesScreen(),
+      initialRoute: '/',
+      // Default load value is : '/'.
       routes: {
-        '/category_meals_screen': (context) => CategoryMealsScreen(),
+        '/': (context) => CategoriesScreen(),
+
+        // Register screenName for "Named Routes" in ROUTE TABLE on Main Screen.
+        CategoryMealsScreen.screenName: (context) => CategoryMealsScreen(),
+        MealDetailScreen.screenName: (context) => MealDetailScreen(),
+      },
+
+      // If you are using "NameRoute" and going using "pushName" to that screen which is not
+      // register in route Table that is
+      //  routes: {
+      //        '/': (context) => CategoriesScreen(),}
+      // Then "onGenerateRoute" execute. And return to mension screen in "onGenerateRoute" method.
+      // return MaterialPageRoute(builder: (ctx) => CategoriesScreen());
+      onGenerateRoute: (setting) {
+        print(setting.arguments);
+        return MaterialPageRoute(builder: (ctx) => CategoriesScreen());
+      },
+
+      // -When flutter failed to build screen that is there is nothing in route table and
+      // -if we not use onGenerateRoute() at that time "onUnknownRoute()" execute to show
+      //  something on the screen.
+      // -This is use to show 404 page not found like error.
+      // -This method execute when "onUnknownRoute()" not defined or doesn't return avalid
+      //  Navigation action.
+      onUnknownRoute: (setting) {
+        print(setting.arguments);
+        return MaterialPageRoute(builder: (ctx) => CategoriesScreen());
       },
     );
   }
