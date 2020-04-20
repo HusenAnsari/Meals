@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mealsapp/category_meals_screen.dart';
 
 class CategoryItem extends StatelessWidget {
   final String id;
@@ -11,9 +10,10 @@ class CategoryItem extends StatelessWidget {
 
   void selectedCategory(BuildContext context) {
     // CupertinoPageRoute - is use in iOS.
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-      return CategoryMealsScreen(id, title);
-    }));
+    Navigator.of(context).pushNamed(
+      '/category_meals_screen',
+      arguments: {'id': id, 'title': title},
+    );
   }
 
   @override
