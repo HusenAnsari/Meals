@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
-import '../dummy_data.dart';
 import '../models/meal.dart';
 import '../widgets/meal_item.dart';
 
 class CategoryMealsScreen extends StatefulWidget {
   // Declare screenName for "Named Routes"
   static const screenName = '/category_meals_screen';
+  final List<Meal> availableMeals;
+
+  CategoryMealsScreen(this.availableMeals);
 
   @override
   _CategoryMealsScreenState createState() => _CategoryMealsScreenState();
@@ -51,8 +53,11 @@ class _CategoryMealsScreenState extends State<CategoryMealsScreen> {
       final categoryId = routeArgument['id'];
       categoryTitle = routeArgument['title'];
 
+      // - Here we are use widget to access "availableMeals" list
+      //   because our "availableMeals" save into Widget "Constructor CategoryMealsScreen;"
+      // - That is called widget level function.
       // get filter date using "categoryId".
-      displayedMeals = DUMMY_MEALS.where((meal) {
+      displayedMeals = widget.availableMeals.where((meal) {
         return meal.categories.contains(categoryId);
       }).toList();
       _loadedInitData = true;

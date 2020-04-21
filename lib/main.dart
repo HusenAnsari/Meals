@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import './dummy_data.dart';
+import './models/meal.dart';
 import './screens/categories_screen.dart';
 import './screens/category_meals_screen.dart';
 import './screens/filters_screen.dart';
@@ -8,7 +10,44 @@ import './screens/tabs_screen.dart';
 
 void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  // Default value for filter
+  Map<String, bool> _filter = {
+    'gluten': false,
+    'lactose': false,
+    'vegen': false,
+    'vegetarian': false,
+  };
+  List<Meal> _availableMeals = DUMMY_MEALS;
+
+  void _setFilters(Map<String, bool> filterData) {
+    setState(() {
+      // Make sure the key for both " _filter and filterData " are same.
+      _filter = filterData;
+      // Filter data using where
+      _availableMeals = DUMMY_MEALS.where((meals) {
+        if (_filter['gluten'] && !meals.isGlutenFree) {
+          return false;
+        }
+        if (_filter['lactose'] && !meals.isLactoseFree) {
+          return false;
+        }
+        if (_filter['vegen'] && !meals.isVegan) {
+          return false;
+        }
+        if (_filter['vegetarian'] && !meals.isVegetarian) {
+          return false;
+        }
+        return true;
+      }).toList();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -39,9 +78,11 @@ class MyApp extends StatelessWidget {
         '/': (context) => TabsScreen(),
 
         // Register screenName for "Named Routes" in ROUTE TABLE on Main Screen.
-        CategoryMealsScreen.screenName: (context) => CategoryMealsScreen(),
+        CategoryMealsScreen.screenName: (context) =>
+            CategoryMealsScreen(_availableMeals),
         MealDetailScreen.screenName: (context) => MealDetailScreen(),
-        FiltersScreen.screenName: (context) => FiltersScreen(),
+        FiltersScreen.screenName: (context) =>
+            FiltersScreen(_filter, _setFilters),
       },
 
       // If you are using "NameRoute" and going using "pushName" to that screen which is not
