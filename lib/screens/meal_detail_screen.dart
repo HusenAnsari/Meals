@@ -40,7 +40,9 @@ class MealDetailScreen extends StatelessWidget {
     final mealId = ModalRoute.of(context).settings.arguments as String;
 
     // To get Single meal detail using mealId.
-    final selectedMeal = DUMMY_MEALS.firstWhere((meal) => meal.id == mealId);
+    final selectedMeal = DUMMY_MEALS.firstWhere(
+          (meal) => meal.id == mealId,
+    );
 
     return Scaffold(
       appBar: AppBar(
