@@ -24,6 +24,7 @@ class _MyAppState extends State<MyApp> {
     'vegetarian': false,
   };
   List<Meal> _availableMeals = DUMMY_MEALS;
+  List<Meal> _favoriteMeals = [];
 
   void _setFilters(Map<String, bool> filterData) {
     setState(() {
@@ -46,6 +47,29 @@ class _MyAppState extends State<MyApp> {
         return true;
       }).toList();
     });
+  }
+
+  void _toggleFavorite(String mealId) {
+    // get Index of mela which is selected or not selected for favourite.
+    final existingIndex =
+    _favoriteMeals.indexWhere((meal) => meal.id == mealId);
+    if (existingIndex >= 0) {
+      // remove meal from " _favoriteMeals " if already selected as a favourite.
+      setState(() {
+        _favoriteMeals.removeAt(existingIndex);
+      });
+    } else {
+      // Add meal into " _favoriteMeals " if not selected as a favourite.
+      setState(() {
+        _favoriteMeals.add(
+          DUMMY_MEALS.firstWhere((meal) => meal.id == mealId),
+        );
+      });
+    }
+  }
+
+  bool _isMealFavourite(String id) {
+    return _favoriteMeals.any((meal) => meal.id == id);
   }
 
   @override
@@ -75,12 +99,13 @@ class _MyAppState extends State<MyApp> {
       initialRoute: '/',
       // Default load value is : '/'.
       routes: {
-        '/': (context) => TabsScreen(),
+        '/': (context) => TabsScreen(_favoriteMeals),
 
         // Register screenName for "Named Routes" in ROUTE TABLE on Main Screen.
         CategoryMealsScreen.screenName: (context) =>
             CategoryMealsScreen(_availableMeals),
-        MealDetailScreen.screenName: (context) => MealDetailScreen(),
+        MealDetailScreen.screenName: (context) =>
+            MealDetailScreen(_toggleFavorite, _isMealFavourite),
         FiltersScreen.screenName: (context) =>
             FiltersScreen(_filter, _setFilters),
       },

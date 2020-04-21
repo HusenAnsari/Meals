@@ -11,7 +11,6 @@ class MealItem extends StatelessWidget {
   final int duration;
   final Complexity complexity;
   final Affordability affordability;
-  final Function removeItem;
 
   MealItem({
     this.id,
@@ -20,7 +19,6 @@ class MealItem extends StatelessWidget {
     this.duration,
     this.complexity,
     this.affordability,
-    this.removeItem,
   });
 
   void selectMeal(BuildContext context) {
@@ -36,11 +34,7 @@ class MealItem extends StatelessWidget {
     //   that is Delete using flat icon and we come again to previous screen that is This screen
     // - Here we get the result when we pass any data from MealDetailScreen using the pop() that
     //   is "Navigator.of(context).pop(mealId);" that result we can get in "result" in than().
-        .then((result) {
-      if (result != null) {
-        removeItem(result);
-      }
-    });
+        .then((result) {});
   }
 
   String get complexityText {

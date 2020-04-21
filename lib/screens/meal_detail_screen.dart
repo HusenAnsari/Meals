@@ -4,6 +4,10 @@ import 'package:mealsapp/dummy_data.dart';
 class MealDetailScreen extends StatelessWidget {
   // Declare screenName for "Named Routes"
   static const screenName = '/meal_detail_screen';
+  final Function _toggleFavorite;
+  final Function _isMealFavourite;
+
+  MealDetailScreen(this._toggleFavorite, this._isMealFavourite);
 
   Widget buildSectionTitle(BuildContext context, String text) {
     return Container(
@@ -90,11 +94,12 @@ class MealDetailScreen extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.delete),
-        onPressed: () {
-          // - pop() remove the screen that are top on the stack.
-          Navigator.of(context).pop(mealId);
-        },
+        child: Icon(
+          _isMealFavourite(mealId) ? Icons.star : Icons.star_border,
+        ),
+        onPressed: () =>
+        // - pop() remove the screen that are top on the stack.
+        _toggleFavorite(mealId),
       ),
     );
   }
