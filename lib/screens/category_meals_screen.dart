@@ -38,10 +38,7 @@ class _CategoryMealsScreenState extends State<CategoryMealsScreen> {
     if (!_loadedInitData) {
       // Receive data to "CategoryItem" using "Named Routes"
       var routeArgument =
-      ModalRoute
-          .of(context)
-          .settings
-          .arguments as Map<String, String>;
+          ModalRoute.of(context).settings.arguments as Map<String, String>;
 
       final categoryId = routeArgument['id'];
       categoryTitle = routeArgument['title'];
