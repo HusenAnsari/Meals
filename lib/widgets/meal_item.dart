@@ -11,6 +11,7 @@ class MealItem extends StatelessWidget {
   final int duration;
   final Complexity complexity;
   final Affordability affordability;
+  final Function removeItem;
 
   MealItem({
     this.id,
@@ -19,11 +20,27 @@ class MealItem extends StatelessWidget {
     this.duration,
     this.complexity,
     this.affordability,
+    this.removeItem,
   });
 
   void selectMeal(BuildContext context) {
     // Send data to "MealDetailScreen" using "Named Routes"
-    Navigator.of(context).pushNamed(MealDetailScreen.screenName, arguments: id);
+    Navigator.of(context)
+        .pushNamed(
+      MealDetailScreen.screenName,
+      arguments: id,
+    )
+    // - pushName return Future are Object that allow you to specific a function
+    //   that execute once that are done with certain operation.
+    // - Here pushName allow to go to "MealDetailScreen" and certain operation perform
+    //   that is Delete using flat icon and we come again to previous screen that is This screen
+    // - Here we get the result when we pass any data from MealDetailScreen using the pop() that
+    //   is "Navigator.of(context).pop(mealId);" that result we can get in "result" in than().
+        .then((result) {
+      if (result != null) {
+        removeItem(result);
+      }
+    });
   }
 
   String get complexityText {

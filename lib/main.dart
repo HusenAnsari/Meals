@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import './screens/categories_screen.dart';
 import './screens/category_meals_screen.dart';
+import './screens/filters_screen.dart';
 import './screens/meal_detail_screen.dart';
 import './screens/tabs_screen.dart';
 
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
         // Register screenName for "Named Routes" in ROUTE TABLE on Main Screen.
         CategoryMealsScreen.screenName: (context) => CategoryMealsScreen(),
         MealDetailScreen.screenName: (context) => MealDetailScreen(),
+        FiltersScreen.screenName: (context) => FiltersScreen(),
       },
 
       // If you are using "NameRoute" and going using "pushName" to that screen which is not
